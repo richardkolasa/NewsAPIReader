@@ -1,0 +1,25 @@
+PODS:
+  - Alamofire (4.2.0)
+  - BubbleTransition (2.0.1)
+  - IGListKit (2.1.0):
+    - IGListKit/Default (= 2.1.0)
+  - IGListKit/Default (2.1.0):
+    - IGListKit/Diffing
+  - IGListKit/Diffing (2.1.0)
+  - Marshal (1.0.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - BubbleTransition
+  - IGListKit
+  - Marshal
+
+SPEC CHECKSUMS:
+  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
+  BubbleTransition: bb24ed389ab672eecf3c87170d0a73f959a8e696
+  IGListKit: b826c68ef7a4ae1626c09d4d3e1ea7a169e6c36e
+  Marshal: a3c5c5dbd388112edf3cdabb718f2b4cfe48658a
+
+PODFILE CHECKSUM: 953113111662f85e7725dd5eb34096f3f8d1a8cf
+
+COCOAPODS: 1.2.0
