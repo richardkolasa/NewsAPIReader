@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (4.2.0)
-  - BubbleTransition (2.0.1)
   - Hero (0.3.6)
   - IGListKit (2.1.0):
     - IGListKit/Default (= 2.1.0)
@@ -11,18 +10,16 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - BubbleTransition
   - Hero
   - IGListKit
   - Marshal
 
 SPEC CHECKSUMS:
   Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
-  BubbleTransition: bb24ed389ab672eecf3c87170d0a73f959a8e696
   Hero: d3c6f4dd80cdcdbb339be64e57ae3b5c3ab9938c
   IGListKit: b826c68ef7a4ae1626c09d4d3e1ea7a169e6c36e
   Marshal: a3c5c5dbd388112edf3cdabb718f2b4cfe48658a
 
-PODFILE CHECKSUM: f6a3a939427454a119e07b8994bfb5619b3bfb62
+PODFILE CHECKSUM: a2fdc9c10f5a20d2aedba86bcda6aef877f30bfb
 
 COCOAPODS: 1.2.0
