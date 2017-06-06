@@ -1,6 +1,6 @@
 //
-//  RedditClientTests.swift
-//  RedditClientTests
+//  NewsAPIReaderTests.swift
+//  NewsAPIReaderTests
 //
 //  Created by Rich Kolasa on 10/27/16.
 //  Copyright © 2016 Rich Kolasa. All rights reserved.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import RedditClient
 
-class RedditClientTests: XCTestCase {
+class NewsAPIReaderTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

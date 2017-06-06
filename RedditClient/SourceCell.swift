@@ -8,6 +8,7 @@
 
 import UIKit
 import IGListKit
+import Hero
 
 protocol Sourceable {
     func setup(source: Source)

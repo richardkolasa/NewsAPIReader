@@ -4,3 +4,4 @@ pod 'Marshal'
 pod 'Alamofire'
 pod ‘BubbleTransition’
 pod ‘IGListKit’
+pod ‘Hero’

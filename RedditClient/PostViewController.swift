@@ -7,13 +7,11 @@
 //
 import UIKit
 import SafariServices
-
+import Hero
 
 class PostViewController: UIViewController, SFSafariViewControllerDelegate {
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var viewSourcesButton: UIBarButtonItem!
-    @IBOutlet weak var toolbar: UIToolbar!
     
     var sourceID: String?
     var name: String? = "Time"
@@ -25,6 +23,7 @@ class PostViewController: UIViewController, SFSafariViewControllerDelegate {
         
         setUpUI()
         registerForPreviewing(with: self, sourceView: view)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +34,7 @@ class PostViewController: UIViewController, SFSafariViewControllerDelegate {
         title = name
         
         getPosts(fromService: PostService())
+
     }
     
     func setUpUI() {
@@ -115,26 +115,28 @@ extension PostViewController: UIViewControllerPreviewingDelegate {
     }
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
-        if let indexPath = tableView.indexPathForRow(at: location) {
+        
+        if let indexPath = tableView.indexPathForRow(at: self.view.convert(location, to: self.tableView)) {
             
-            print(indexPath)
-            previewingContext.sourceRect = tableView.rectForRow(at: (indexPath))
-            let post = posts[indexPath.row]
-            
-            guard let urlString = post.url, let url = URL(string: urlString) else {
-                print("Could not obtain post URL")
-                return self
+                previewingContext.sourceRect = tableView.rectForRow(at: (indexPath))
+                
+                let post = posts[indexPath.row]
+                
+                guard let urlString = post.url, let url = URL(string: urlString) else {
+                    print("Could not obtain post URL")
+                    return self
+                }
+                
+                let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+                
+                if #available(iOS 10.0, *) {
+                    safariVC.preferredControlTintColor = .darkGray
+                }
+                
+                self.safariVC = safariVC
+                return safariVC
             }
-            
-            let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
-            
-            if #available(iOS 10.0, *) {
-                safariVC.preferredControlTintColor = .darkGray
-            }
-            
-            self.safariVC = safariVC
-            return safariVC
-        }
+        
         return nil
     }
 }

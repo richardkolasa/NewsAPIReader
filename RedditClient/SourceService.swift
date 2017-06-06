@@ -12,7 +12,7 @@ import Marshal
 
 class SourceService {
     
-    let topUrlString = "https://newsapi.org/v1/sources?language=en"
+    let topUrlString = "https://newsapi.org/v1/sources?language=en&country=us"
     var sources: [Source] = []
     
     func get(source: String = "", finished: @escaping ([Source]) -> Void) {

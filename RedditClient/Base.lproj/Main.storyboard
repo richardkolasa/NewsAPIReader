@@ -75,6 +75,10 @@
                             <constraint firstItem="v7Y-SK-kHS" firstAttribute="leading" secondItem="GLm-cg-fiF" secondAttribute="leadingMargin" constant="-16" id="kIE-8G-mW1"/>
                             <constraint firstItem="HbK-W2-Wz7" firstAttribute="top" secondItem="v7Y-SK-kHS" secondAttribute="bottom" id="rNy-qo-obV"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="string" keyPath="heroID" value="transition"/>
+                            <userDefinedRuntimeAttribute type="string" keyPath="heroModifierString" value="fade()"/>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <navigationItem key="navigationItem" title="Time" id="fW7-0C-blE">
                         <barButtonItem key="rightBarButtonItem" image="Replace-50" id="LAD-28-52M">
@@ -85,7 +89,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="v7Y-SK-kHS" id="7eM-FE-nfh"/>
-                        <outlet property="viewSourcesButton" destination="LAD-28-52M" id="uAR-8R-WGz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HjF-d2-D3b" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -106,18 +109,21 @@
                         <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="isHeroEnabled" value="NO"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <segue destination="xKy-10-gga" kind="relationship" relationship="rootViewController" id="9Mc-2h-D78"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CcM-Pd-PvB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4332" y="47.226386806596707"/>
+            <point key="canvasLocation" x="4430" y="47"/>
         </scene>
         <!--Select a Source-->
         <scene sceneID="H3k-UY-xIc">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="cx4-Af-uAM" customClass="SourceLogoViewController" customModule="NewsAPIReader" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="cx4-Af-uAM" customClass="SourcesViewController" customModule="NewsAPIReader" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a7e-Jk-lR7"/>
                         <viewControllerLayoutGuide type="bottom" id="zYW-dG-Z4U"/>
@@ -144,21 +150,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="200" height="56"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eJo-cq-qbf">
-                                                    <rect key="frame" x="5" y="5" width="190" height="46"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eJo-cq-qbf">
+                                                    <rect key="frame" x="15" y="15" width="170" height="26"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="20"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </view>
-                                        <color key="backgroundColor" red="0.90980392160000001" green="0.4549019608" blue="0.3803921569" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <gestureRecognizers/>
                                         <constraints>
-                                            <constraint firstItem="eJo-cq-qbf" firstAttribute="top" secondItem="3tA-Sv-e13" secondAttribute="top" constant="5" id="6tC-6V-gKE"/>
-                                            <constraint firstAttribute="trailing" secondItem="eJo-cq-qbf" secondAttribute="trailing" constant="5" id="SF9-hC-oAK"/>
-                                            <constraint firstItem="eJo-cq-qbf" firstAttribute="leading" secondItem="3tA-Sv-e13" secondAttribute="leading" constant="5" id="cfA-4Z-6n7"/>
-                                            <constraint firstAttribute="bottom" secondItem="eJo-cq-qbf" secondAttribute="bottom" constant="5" id="cnD-VB-Gob"/>
+                                            <constraint firstItem="eJo-cq-qbf" firstAttribute="leading" secondItem="3tA-Sv-e13" secondAttribute="leading" constant="15" id="Cxc-e9-p3N"/>
+                                            <constraint firstAttribute="trailing" secondItem="eJo-cq-qbf" secondAttribute="trailing" constant="15" id="Qg2-Fd-2qa"/>
+                                            <constraint firstAttribute="bottom" secondItem="eJo-cq-qbf" secondAttribute="bottom" constant="15" id="iPH-kM-Yvs"/>
+                                            <constraint firstItem="eJo-cq-qbf" firstAttribute="top" secondItem="3tA-Sv-e13" secondAttribute="top" constant="15" id="yWD-Zv-DZw"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="name" destination="eJo-cq-qbf" id="b6Z-jv-4Cg"/>
@@ -184,6 +190,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="string" keyPath="heroModalAnimationTypeString" value="fade()"/>
+                    </userDefinedRuntimeAttributes>
                     <connections>
                         <outlet property="collectionView" destination="sxZ-mx-rIK" id="iYZ-Fa-t98"/>
                     </connections>
