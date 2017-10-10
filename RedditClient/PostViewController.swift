@@ -7,12 +7,9 @@
 //
 import UIKit
 import SafariServices
-import Hero
 
-class PostViewController: UIViewController, SFSafariViewControllerDelegate {
-    
-    @IBOutlet weak var tableView: UITableView!
-    
+class PostViewController: UITableViewController, SFSafariViewControllerDelegate {
+        
     var sourceID: String?
     var name: String? = "Time"
     var posts = [Post]()
@@ -21,8 +18,23 @@ class PostViewController: UIViewController, SFSafariViewControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpUI()
+        if #available(iOS 11.0, *) {
+            navigationController?.navigationBar.prefersLargeTitles = true
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        tableView.estimatedRowHeight = 140
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
+        /// Register the VC for 3D touch peek & pop
         registerForPreviewing(with: self, sourceView: view)
+        
+        /// refreshControl instance
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        
+        tableView.refreshControl = refreshControl
 
     }
     
@@ -30,31 +42,19 @@ class PostViewController: UIViewController, SFSafariViewControllerDelegate {
         super.viewWillAppear(animated)
         
         name = UserDefaults.standard.object(forKey: "sourceName") as? String
-        sourceID = UserDefaults.standard.object(forKey: "sourceID") as? String
         title = name
         
+        sourceID = UserDefaults.standard.object(forKey: "sourceID") as? String
         getPosts(fromService: PostService())
-
+        
     }
     
-    func setUpUI() {
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.estimatedRowHeight = 140
-        self.automaticallyAdjustsScrollViewInsets = false
-
-        let refreshControl = UIRefreshControl()
-        refreshControl.backgroundColor = #colorLiteral(red: 0.8687419987, green: 0.3399184699, blue: 0.2972750098, alpha: 1)
-        refreshControl.tintColor = UIColor.white
-        refreshControl.addTarget(self, action: #selector(handleRefresh), for: UIControlEvents.valueChanged)
-        tableView.addSubview(refreshControl)
-    }
-    
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    @objc func handleRefresh(refreshControl: UIRefreshControl) {
         getPosts(fromService: PostService())
-        self.tableView.reloadData()
         refreshControl.endRefreshing()
     }
     
+    /// Clear posts array, add new posts from API
     func getPosts<Service: Gettable>(fromService service: Service) {
         service.get(sourceID: sourceID ?? "time", finished: { posts in
             self.posts = []
@@ -65,17 +65,18 @@ class PostViewController: UIViewController, SFSafariViewControllerDelegate {
         })
     }
     
-    @IBAction func unwindToPosts(segue: UIStoryboardSegue) {}
+    @IBAction func unwindToPosts(segue: UIStoryboardSegue) {
+    }
 }
 
 //Table View
-extension PostViewController: UITableViewDelegate, UITableViewDataSource {
+extension PostViewController {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostCell
         let post = posts[indexPath.row]
         
@@ -86,28 +87,29 @@ extension PostViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let post = posts[indexPath.row]
         
-            guard let urlString = post.url, let url = URL(string: urlString)  else {
-                return
-            }
-            
-            let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
-            
-            if #available(iOS 10.0, *) {
-                safariVC.preferredBarTintColor = .white
-            } else {
-                return
-            }
-            
-            self.safariVC = safariVC
-            present(safariVC, animated: true, completion: nil)
-            tableView.deselectRow(at: indexPath, animated: true)
+        guard let urlString = post.url, let url = URL(string: urlString) else {
+            return
+        }
+        
+        // TODO: Replace with recommended code
+        let safariVC = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+        
+        if #available(iOS 10.0, *) {
+            safariVC.preferredBarTintColor = .white
+        } else {
+            return
+        }
+        
+        self.safariVC = safariVC
+        present(safariVC, animated: true, completion: nil)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
-//3D Touch Previewing
+/// 3D Touch Previewing
 extension PostViewController: UIViewControllerPreviewingDelegate {
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
@@ -116,10 +118,12 @@ extension PostViewController: UIViewControllerPreviewingDelegate {
     
     func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
+        /// Convert the 3D touch location to a more specific location in the table view
         if let indexPath = tableView.indexPathForRow(at: self.view.convert(location, to: self.tableView)) {
             
                 previewingContext.sourceRect = tableView.rectForRow(at: (indexPath))
-                
+            
+                /// The post at the touched location
                 let post = posts[indexPath.row]
                 
                 guard let urlString = post.url, let url = URL(string: urlString) else {

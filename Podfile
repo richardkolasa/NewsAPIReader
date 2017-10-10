@@ -3,4 +3,3 @@ target ‘NewsAPIReader’
 pod 'Marshal'
 pod 'Alamofire'
 pod ‘IGListKit’
-pod ‘Hero’

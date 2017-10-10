@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Marshal
 
 struct Post {
     var title: String

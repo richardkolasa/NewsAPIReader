@@ -7,38 +7,36 @@
 //
 
 import UIKit
-import BubbleTransition
 import IGListKit
-import Hero
 
-class TableSectionController: IGListSectionController {
+var cellWidth: CGFloat?
+
+class TableSectionController: ListSectionController {
     var source: Source?
+    
 }
 
-extension TableSectionController: IGListSectionType {
-    func numberOfItems() -> Int {
+extension TableSectionController {
+    override func numberOfItems() -> Int {
         return 1
     }
     
-    func sizeForItem(at index: Int) -> CGSize {
+    override func sizeForItem(at index: Int) -> CGSize {
         
         guard let context = collectionContext else { return .zero}
-        let width = (context.containerSize.width / 2.1)
-        
-        return CGSize(width: width, height: width)
+        let width = (context.containerSize.width)
+        return CGSize(width: width, height: 60)
     }
     
-    func cellForItem(at index: Int) -> UICollectionViewCell {
+    override func cellForItem(at index: Int) -> UICollectionViewCell {
         
         let cell = collectionContext!.dequeueReusableCellFromStoryboard(withIdentifier: "sourceCell", for: self, at: index)
         
-        cell.layer.cornerRadius = 5
         cell.layer.shadowPath = UIBezierPath(rect: cell.bounds).cgPath
-        cell.layer.shadowOffset = CGSize(width: 3, height: 3)
+        cell.layer.shadowOffset = CGSize(width: 0, height: 2)
         cell.layer.shadowColor = UIColor.black.cgColor
-        cell.layer.masksToBounds = false
-        cell.layer.shadowOpacity = 0.5
-        cell.layer.shadowRadius = 4
+        cell.layer.shadowOpacity = 0.25
+        cell.layer.shadowRadius = 2
         
         if let cell = cell as? Sourceable, let source = self.source {
             cell.setup(source: source)
@@ -46,11 +44,11 @@ extension TableSectionController: IGListSectionType {
         return cell
     }
     
-    func didUpdate(to object: Any) {
+    override func didUpdate(to object: Any) {
         source = object as? Source
     }
     
-    func didSelectItem(at index: Int) {
+    override func didSelectItem(at index: Int) {
         
         if let vc = self.viewController as? SourcesViewController, let source = self.source {
             vc.getDetailsOf(source: source)
@@ -61,7 +59,7 @@ extension TableSectionController: IGListSectionType {
 
 class SourcesViewController: UIViewController, UIGestureRecognizerDelegate {
     
-    @IBOutlet weak var collectionView: IGListCollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     var sources: [Source] = []
     var name: String?
@@ -70,21 +68,14 @@ class SourcesViewController: UIViewController, UIGestureRecognizerDelegate {
     var sourceID: String?
     let sourceService = SourceService()
     
-    lazy var adapter: IGListAdapter = {
-        return IGListAdapter(updater: IGListAdapterUpdater(), viewController: self, workingRangeSize: 6)
+    lazy var adapter: ListAdapter = {
+        return ListAdapter(updater: ListAdapterUpdater(), viewController: self, workingRangeSize: 6)
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let gridCollectionLayout = IGListGridCollectionViewLayout()
-        gridCollectionLayout.minimumInteritemSpacing = 10
-        gridCollectionLayout.minimumLineSpacing = 10
-        
-        collectionView.contentMode = .scaleAspectFit
-        collectionView.contentInset = UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20)
-        collectionView.collectionViewLayout = gridCollectionLayout
+        collectionView.contentMode = .center       
         
         sourceService.get { (sources) in
             self.sources += sources
@@ -100,7 +91,6 @@ class SourcesViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     /// Capture and store source name & ID to UserDefaults
-    
     func getDetailsOf(source: Source) {
         
         let sourceID = source.id
@@ -116,16 +106,16 @@ class SourcesViewController: UIViewController, UIGestureRecognizerDelegate {
     }
 }
 
-extension SourcesViewController: IGListAdapterDataSource {
-    func objects(for listAdapter: IGListAdapter) -> [IGListDiffable] {
+extension SourcesViewController: ListAdapterDataSource {
+    func objects(for listAdapter: ListAdapter) -> [ListDiffable] {
         return self.sources
     }
     
-    func listAdapter(_ listAdapter: IGListAdapter, sectionControllerFor object: Any) -> IGListSectionController {
+    func listAdapter(_ listAdapter: ListAdapter, sectionControllerFor object: Any) -> ListSectionController {
         return TableSectionController()
     }
     
-    func emptyView(for listAdapter: IGListAdapter) -> UIView? {
+    func emptyView(for listAdapter: ListAdapter) -> UIView? {
         let view = UIView()
         view.backgroundColor = .white
         return view

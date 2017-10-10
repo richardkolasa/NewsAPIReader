@@ -1,25 +1,22 @@
 PODS:
-  - Alamofire (4.2.0)
-  - Hero (0.3.6)
-  - IGListKit (2.1.0):
-    - IGListKit/Default (= 2.1.0)
-  - IGListKit/Default (2.1.0):
+  - Alamofire (4.5.0)
+  - IGListKit (3.0.0):
+    - IGListKit/Default (= 3.0.0)
+  - IGListKit/Default (3.0.0):
     - IGListKit/Diffing
-  - IGListKit/Diffing (2.1.0)
-  - Marshal (1.0.0)
+  - IGListKit/Diffing (3.0.0)
+  - Marshal (1.2.4)
 
 DEPENDENCIES:
   - Alamofire
-  - Hero
   - IGListKit
   - Marshal
 
 SPEC CHECKSUMS:
-  Alamofire: aa2e09d871c9160ac53c90e83c68064a94e3dfbe
-  Hero: d3c6f4dd80cdcdbb339be64e57ae3b5c3ab9938c
-  IGListKit: b826c68ef7a4ae1626c09d4d3e1ea7a169e6c36e
-  Marshal: a3c5c5dbd388112edf3cdabb718f2b4cfe48658a
+  Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
+  IGListKit: 9eab6856a15fa25ad72018ff9d9eb2178c240fff
+  Marshal: 8e04e6624e506921db7143b0bfd83caee03f32d6
 
-PODFILE CHECKSUM: a2fdc9c10f5a20d2aedba86bcda6aef877f30bfb
+PODFILE CHECKSUM: 7b5c139236dac61da67d80d4b1e3a758f59ac854
 
 COCOAPODS: 1.2.0

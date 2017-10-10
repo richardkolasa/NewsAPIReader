@@ -13,16 +13,18 @@ import IGListKit
 class Source: JSONDeserializable {
     var name: String
     var id: String
-    var URLToImage: URL?
+    var descriptionText: String
     
     required init(jsonRepresentation: JSON) throws {
         guard let name = jsonRepresentation["name"] as? String,
-            let id = jsonRepresentation["id"] as? String else {
+            let id = jsonRepresentation["id"] as? String,
+            let descriptionText = jsonRepresentation["description"] as? String else {
                 throw JSONDeserializationError.missingAttribute("")
         }
         
         self.name = name
         self.id = id
+        self.descriptionText = descriptionText
     }
 }
 
@@ -32,13 +34,13 @@ extension Source: CustomStringConvertible {
     }
 }
 
-extension Source: IGListDiffable {
+extension Source: ListDiffable {
     
     func diffIdentifier() -> NSObjectProtocol {
         return id as NSObjectProtocol
     }
     
-    func isEqual(toDiffableObject object: IGListDiffable?) -> Bool {
+    func isEqual(toDiffableObject object: ListDiffable?) -> Bool {
         guard let object = object as? Source else {
             return false
         }

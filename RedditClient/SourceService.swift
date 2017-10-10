@@ -31,7 +31,6 @@ class SourceService {
                     return
             }
             
-            
             for item in sourcesDict {
                 do {
                     let source = try Source(jsonRepresentation: item)

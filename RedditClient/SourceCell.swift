@@ -8,7 +8,6 @@
 
 import UIKit
 import IGListKit
-import Hero
 
 protocol Sourceable {
     func setup(source: Source)
@@ -17,6 +16,7 @@ protocol Sourceable {
 class SourceCell: UICollectionViewCell, Sourceable {
     
     @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
     func setup(source: Source) {
         name.text = source.name
